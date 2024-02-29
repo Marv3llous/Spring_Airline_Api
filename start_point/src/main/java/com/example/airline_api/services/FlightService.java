@@ -1,6 +1,7 @@
 package com.example.airline_api.services;
 
 import com.example.airline_api.models.Flight;
+import com.example.airline_api.models.Passenger;
 import com.example.airline_api.repositories.FlightRepository;
 import com.example.airline_api.repositories.PassengerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,4 +34,12 @@ public class FlightService {
         flightRepository.save(flight);
     }
 
+    public void deleteFlight(Long id) {
+        Flight flight = flightRepository.findById(id).get();
+        for(Passenger passenger : flight.getPassengers()){
+            passenger.removeFlight(flight);
+            passengerRepository.save(passenger);
+        }
+        flightRepository.delete(flight);
+    }
 }
