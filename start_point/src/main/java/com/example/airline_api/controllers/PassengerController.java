@@ -1,6 +1,7 @@
 package com.example.airline_api.controllers;
 
 import com.example.airline_api.models.Flight;
+import com.example.airline_api.models.NewPassengerDTO;
 import com.example.airline_api.models.Passenger;
 import com.example.airline_api.repositories.PassengerRepository;
 import com.example.airline_api.services.PassengerService;
@@ -37,9 +38,9 @@ public class PassengerController {
 
     // Add a new passenger
     @PostMapping
-    public ResponseEntity<List<Passenger>> addNewPassenger(@RequestBody Passenger passenger){
-        passengerRepository.save(passenger);
-        return new ResponseEntity<>(passengerRepository.findAll(), HttpStatus.CREATED);
+    public ResponseEntity<Passenger> addNewPassenger(@RequestBody NewPassengerDTO newPassengerDTO){
+        Passenger passenger = passengerService.savePassenger(newPassengerDTO);
+        return new ResponseEntity<>(passenger, HttpStatus.CREATED);
     }
 
 }
